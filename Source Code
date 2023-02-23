@@ -1,0 +1,182 @@
+import java.util.*;
+
+public class proj1{
+
+        public static void main(String[] args){
+
+        Scanner kb = new Scanner(System.in);
+
+        boolean restart = true;
+
+
+
+        while (restart) {
+
+        System.out.println("Enter the individual key values (positive or negative integers, one after another in same line with a blank between two values):");
+
+        // Read in the users key values
+
+        String user_keys = kb.nextLine();
+
+        // Convert the users input of key values into a list with integers
+
+        String [] user_keys_array = user_keys.split(" ");
+
+        int [] int_keys_array = new int [user_keys_array.length];
+
+        for (int i = 0; i < user_keys_array.length; i++){
+
+                int key = Integer.parseInt(user_keys_array[i]);
+
+                int_keys_array[i] = key;
+
+
+
+
+
+                }
+
+
+
+        //Create a list for the users string to be encoded, convert each
+
+        //character into ascii
+
+        System.out.println("\n");
+
+        System.out.println("Enter a string to be encoded: ");
+
+        String string_2be_enc = kb.nextLine();
+
+        int [] string_2be_array = new int [string_2be_enc.length()];
+
+        for (int i = 0; i < string_2be_enc.length(); i++) {
+
+                char cur_character = string_2be_enc.charAt(i);
+
+                int ascii_val = (int) cur_character;
+
+                string_2be_array[i] = ascii_val;
+
+        }
+
+
+
+        int key_val = 0;
+
+        int idx = 0;
+
+        char [] enc_message = new char [string_2be_array.length];
+
+        for (int i = 0; i < string_2be_array.length; i++) {
+
+                key_val = string_2be_array[i];
+
+                if (idx > int_keys_array.length - 1){
+
+                idx = 0;
+
+                }
+
+                key_val += int_keys_array[idx];
+
+
+
+                char enc_ch = (char) key_val;
+
+                enc_message[i] = enc_ch;
+
+                idx ++;
+
+                key_val = 0;
+
+
+
+        }
+
+        System.out.println("\n");
+
+        System.out.println("The encoded message: ");
+
+        System.out.println(enc_message);
+
+        int keys_v = 0;
+
+        int index = 0;
+
+        char [] decoded_message = new char [string_2be_array.length];
+
+        for (int i = 0; i < enc_message.length; i++) {
+
+                char dec_ch = enc_message[i];
+
+                int dec_ascii = (int) dec_ch;
+
+                keys_v = dec_ascii;
+
+                if (index > int_keys_array.length - 1){
+
+                index = 0;
+
+                }
+
+                keys_v -= int_keys_array[index];
+
+
+
+                char decoded_ch = (char) keys_v;
+
+                decoded_message[i] = decoded_ch;
+
+                index ++;
+
+                keys_v = 0;
+
+        }
+
+        System.out.println("\n");
+
+        System.out.println("The decoded message: ");
+
+        System.out.println(decoded_message);
+
+        System.out.println("\n");
+
+        System.out.println("Do you want to run the program again (y for yes and n for no)?: ");
+
+        String y_or_n = kb.nextLine();
+
+        if (y_or_n.equals("y")) {
+
+                restart = true;
+
+
+
+      } else{
+
+                restart = false;
+
+
+
+        }
+
+        }
+
+        System.exit(0);
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+
+
+}
