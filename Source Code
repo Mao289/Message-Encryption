@@ -1,170 +1,273 @@
-import java.util.*;
+import java.util.Scanner;
+
+
+
+import java.util.Arrays;
+
+
+
+
+
+
 
 public class proj1{
 
-        public static void main(String[] args){
 
-        Scanner kb = new Scanner(System.in);
 
-        boolean restart = true;
+        public static void main(String args[]){
 
 
 
-        while (restart) {
+                //variables
 
-        System.out.println("Enter the individual key values (positive or negative integers, one after another in same line with a blank between two values):");
 
-        // Read in the users key values
 
-        String user_keys = kb.nextLine();
+                String message;
 
-        // Convert the users input of key values into a list with integers
 
-        String [] user_keys_array = user_keys.split(" ");
 
-        int [] int_keys_array = new int [user_keys_array.length];
+                String code;
 
-        for (int i = 0; i < user_keys_array.length; i++){
 
-                int key = Integer.parseInt(user_keys_array[i]);
 
-                int_keys_array[i] = key;
+                String user_keys;
 
 
 
 
 
-                }
 
 
+                Scanner kb = new Scanner(System.in); //set up scanner to take keyboard inputs.
 
-        //Create a list for the users string to be encoded, convert each
 
-        //character into ascii
 
-        System.out.println("\n");
+                boolean restart = true; // boolean to control while loop below
 
-        System.out.println("Enter a string to be encoded: ");
 
-        String string_2be_enc = kb.nextLine();
 
-        int [] string_2be_array = new int [string_2be_enc.length()];
 
-        for (int i = 0; i < string_2be_enc.length(); i++) {
 
-                char cur_character = string_2be_enc.charAt(i);
 
-                int ascii_val = (int) cur_character;
 
-                string_2be_array[i] = ascii_val;
+                while(restart){//while loop allows for repeated running of our interface with the user
 
-        }
 
 
+                        System.out.println("Enter the individual key values (positive or negative integers, one after another in same line with a blank between two values):");
 
-        int key_val = 0;
 
-        int idx = 0;
 
-        char [] enc_message = new char [string_2be_array.length];
+                        user_keys=kb.nextLine();//user input of key values
 
-        for (int i = 0; i < string_2be_array.length; i++) {
 
-                key_val = string_2be_array[i];
 
-                if (idx > int_keys_array.length - 1){
+                        // Convert the users input of key values into an array of integers
 
-                idx = 0;
 
-                }
 
-                key_val += int_keys_array[idx];
+                        String [] split_keys = user_keys.split(" ");//splits our string into an array of strings (by spaces)
 
 
 
-                char enc_ch = (char) key_val;
+                        int [] keys = new int[split_keys.length];//new array of ints
 
-                enc_message[i] = enc_ch;
 
-                idx ++;
 
-                key_val = 0;
+                        for(int i=0; i<keys.length;i++){
 
 
 
-        }
+                                keys[i] = Integer.parseInt(split_keys[i]);//converts array of ints into array of strings
 
-        System.out.println("\n");
 
-        System.out.println("The encoded message: ");
 
-        System.out.println(enc_message);
+                        }
 
-        int keys_v = 0;
 
-        int index = 0;
 
-        char [] decoded_message = new char [string_2be_array.length];
 
-        for (int i = 0; i < enc_message.length; i++) {
 
-                char dec_ch = enc_message[i];
 
-                int dec_ascii = (int) dec_ch;
 
-                keys_v = dec_ascii;
 
-                if (index > int_keys_array.length - 1){
 
-                index = 0;
 
-                }
 
-                keys_v -= int_keys_array[index];
+                        System.out.println("Enter a string to be encoded: ");
 
 
 
-                char decoded_ch = (char) keys_v;
+                        message = kb.nextLine();
 
-                decoded_message[i] = decoded_ch;
 
-                index ++;
 
-                keys_v = 0;
+                        code = "";
 
-        }
 
-        System.out.println("\n");
 
-        System.out.println("The decoded message: ");
+                        int x = 0;
 
-        System.out.println(decoded_message);
 
-        System.out.println("\n");
 
-        System.out.println("Do you want to run the program again (y for yes and n for no)?: ");
+                        for(int c=0; c<message.length(); c++){
+
+
+
+                                int char_val = (int)(message.charAt(c));//calculates ascii value + key
+
+                                int keyValue = keys[x];
+
+                                keyValue = ((keyValue % 95) + 95) % 95;
+
+
+
+
+
+
+
+                                char_val = ((char_val - 32 + keyValue) % 95) + 32;
+
+                                 code += (char)char_val;
+
+                               if (x < keys.length - 1) {
+
+                                         x++;
+
+                                 }
+
+                                else{
+
+                                        x = 0;
+
+                                }
+
+                                }
+
+
+
+
+
+
+
+
+
+
+
+                        System.out.println("The encoded message:");
+
+
+
+                        System.out.println(code);
+
+
+
+                        String decoded_code = "";
+
+                        int index = 0;
+
+
+
+                        for (int i = 0; i < code.length(); i++) {
+
+                                int char_val = (int)(code.charAt(i));
+
+                                int keyValue = keys[index];
+
+
+
+
+
+                                keyValue = ((keyValue % 95) + 95) % 95;
+
+                                char_val = ((char_val - 32 - keyValue + 95) % 95) + 32;
+
+                                decoded_code += (char) char_val;
+
+                                if (index < keys.length - 1) {
+
+                                        index++;
+
+
+
+                                }
+
+
+                                else {
+
+                                 index = 0;
+
+                                }
+
+                        }
+
+
+
+
+
+                        System.out.println("The decoded message: ");
+
+
+
+                        System.out.println(decoded_code);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        System.out.println("Do you want to run the program again (y for yes and n for no)?: ");
+
+
 
         String y_or_n = kb.nextLine();
 
+
+
         if (y_or_n.equals("y")) {
+
+
 
                 restart = true;
 
 
 
+
+
+
+
       } else{
+
+
 
                 restart = false;
 
 
 
-        }
+                        }
+
+
 
         }
-
-        System.exit(0);
-
-
 
 
 
